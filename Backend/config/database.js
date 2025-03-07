@@ -6,7 +6,7 @@ const connctDatabase = ()=>{
         useUnifiedTopology:true
 
     }).then(con=>{
-        console.log(`Mongo Dab is connected to the host ${con.connection.host}`)
+        console.log(`MongoDB is connected to the host ${con.connection.host}`)
     })
     
 }

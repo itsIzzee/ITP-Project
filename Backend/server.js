@@ -1,11 +1,11 @@
 const app = require('./App');
 const dotenv = require('dotenv');
 const path = require('path');
-const connctDatabase = require('./config/database');
+const connectDatabase = require('./config/database');
 
 dotenv.config({path:path.join(__dirname,"config/config.env")});
 
-connctDatabase();
+connectDatabase();
 
 const server = app.listen(process.env.PORT,()=>{
     console.log(`server listening to the port : ${process.env.PORT} in ${process.env.NODE_ENV}`)
