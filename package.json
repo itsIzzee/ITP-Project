@@ -1,0 +1,21 @@
+{
+  "name": "my_project",
+  "version": "1.0.0",
+  "description": "Ecommerce using mern",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon Backend/server.js",
+    "dev": "set NODE_ENV=development&&nodemon Backend/server.js",
+    "prod": "set NODE_ENV=production&&nodemon Backend/server.js"
+  },
+  "author": "Izzee",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
