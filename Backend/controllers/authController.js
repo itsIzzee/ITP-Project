@@ -1,5 +1,7 @@
 const catchAsyncError = require('../middleware/catchAsyncError')
 const User = require('../models/userModel')
+const errorHandler = require('../Utils/errorHandling')
+const sendToken = require('../Utils/jwt')
 
 exports.registerUser = catchAsyncError(async (req,res,next) =>{
 
@@ -11,9 +13,32 @@ exports.registerUser = catchAsyncError(async (req,res,next) =>{
         avatar
     });
 
-    res.status(201).json({
-        success : true,
-        user
-    })
+    sendToken(user,201,res)
+
+})
+
+
+
+exports.loginuser = catchAsyncError(async(req,res,next) =>{
+    const{email,password} = req.body
+
+    if(!email || !password){
+        return next(new errorHandler('Please Enter email & password',400))
+    }
+
+
+    //finding data of user in the db
+
+    const user = await User.findOne({email}).select('+password');
+
+    if(!user){
+        return next(new errorHandler('Invalid email or password',400))
+    }
+
+    if(!await user.isValidPassword(password)){
+        return next(new errorHandler('Invalid email or password',400))
+    }
+
+    sendToken(user, 201, res)
 
 })
