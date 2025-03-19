@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
 
-const userSchema = new mongoose.Schema({
+const sellerSchema = new mongoose.Schema({
     name :{
         type : String,
         required : [true, 'Please enter name']
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
     },
     role :{
         type : String,
-        default : 'user'
+        default : 'seller'
     },
 
     resetPasswordToken :{
@@ -47,24 +47,26 @@ const userSchema = new mongoose.Schema({
 
 })
 
-    userSchema.pre('save', async function (next){
-    if(!this.isModified('password')){
-        next();
-    }
-        this.password = await bcrypt.hash(this.password, 10)
-    } )
 
-    userSchema.methods.getJwtToken = function (){
-       return jwt.sign({id: this.id},process.env.JWT_SECRET,{
-            expiresIn : process.env.JWT_EXPRESS_TIME
-        })
-    }
+    sellerSchema.pre('save', async function (next){
+        if(!this.isModified('password')){
+            next();
+        }
+            this.password = await bcrypt.hash(this.password, 10)
+        } )
 
-    userSchema.methods.isValidPassword = async function (enteredPassword){
-       return  bcrypt.compare(enteredPassword,this.password)
-    }
+    sellerSchema.methods.getJwtToken = function (){
+        return jwt.sign({id: this.id},process.env.JWT_SECRET,{
+                expiresIn : process.env.JWT_EXPRESS_TIME
+            })
+        }
 
-    userSchema.methods.getResetToken = async function (){
+    sellerSchema.methods.isValidPassword = async function (enteredPassword){
+        return  bcrypt.compare(enteredPassword,this.password)
+            }
+
+
+    sellerSchema.methods.getResetToken = async function (){
         //generate token
 
         const token = crypto.randomBytes(20).toString('hex');
@@ -78,9 +80,8 @@ const userSchema = new mongoose.Schema({
         return token;
 
         }
-  
 
 
-let model = mongoose.model('User', userSchema);
+let model = mongoose.model('Seller', sellerSchema);
 
 module.exports = model;

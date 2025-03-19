@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const connctDatabase = ()=>{
+const connectDatabase = ()=>{
     mongoose.connect(process.env.DB_LOCAL_URI,{
         useNewUrlParser:true,
         useUnifiedTopology:true
@@ -11,4 +11,4 @@ const connctDatabase = ()=>{
     
 }
 
-module.exports = connctDatabase;
+module.exports = connectDatabase;
