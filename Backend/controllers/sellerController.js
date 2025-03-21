@@ -12,7 +12,13 @@ const crypto = require ('crypto')
 //Register seller - /api/v1/registerSeller
 exports.registerSeller = catchAsyncError(async (req,res,next) =>{
 
-    const {name,email,password,avatar} = req.body
+    const {name,email,password} = req.body
+
+
+    let avatar;
+    if(req.file){
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+    }
     const seller = await Seller.create({
         name,
         email,
@@ -191,5 +197,105 @@ exports.updateProfileSeller = catchAsyncError(async (req , res, next)=>{
         seller
        })
 
+
+})
+
+// Delete My Account - /api/v1/myaccountSeller
+exports.deleteMyAccountSeller = catchAsyncError(async (req, res, next) => {
+    // Find the seller by their ID
+    const seller = await Seller.findById(req.seller.id);
+
+    if (!seller) {
+        return next(new ErrorHandler('Seller not found', 404));
+    }
+
+    // Delete the seller account
+    await seller.deleteOne();
+
+    res.status(200).json({
+        success: true,
+        message: 'Your account has been deleted successfully'
+    });
+});
+
+
+
+//admin:get all selllers - /api/v1/admin/seller
+
+exports.getAllSellers = catchAsyncError(async (req , res, next)=>{
+    
+    
+    const sellers = await Seller.find ();
+
+    res.status(200).json({
+        success : true,
+        sellers
+       })
+
+})
+
+
+
+
+//admin : get specific seller  - /api/v1/admin/seller/:id
+
+exports.getSeller = catchAsyncError(async (req , res, next)=>{
+    
+    const seller = await Seller.findById (req.params.id);
+
+    if(!seller){
+        return next(new ErrorHandler(`User Not Found with this id ${req.params.id} ` ,401))
+
+    }
+    res.status(200).json({
+        success : true,
+        seller
+       })
+
+})
+
+
+//admin : Update seller -  /api/v1/admin/seller/:id
+
+exports.updateSeller = catchAsyncError(async (req , res, next)=>{
+    
+    const newSellerData = {
+        name : req.body.name,
+        email : req.body.email,
+        role : req.body.role
+
+    }
+
+
+   const seller = await Seller.findByIdAndUpdate(req.params.id, newSellerData, {
+        new : true,
+        runValidators :true 
+
+    })
+
+
+    res.status(200).json({
+        success : true,
+        seller
+       })
+
+})
+
+//admin : delete seller -  /api/v1/admin/seller/:id
+exports.deleteSeller  = catchAsyncError(async (req , res, next)=>{
+    
+    const seller = await Seller.findById (req.params.id);
+
+    if(!seller){
+        return next(new ErrorHandler(`User Not Found with this id ${req.params.id} ` ,401))
+
+    }
+
+    await seller.deleteOne();
+
+    res.status(200).json({
+        success : true,
+        
+       })
 
 })

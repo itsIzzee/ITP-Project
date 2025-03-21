@@ -10,12 +10,19 @@ const crypto = require ('crypto')
 //Register User - /api/v1/register
 exports.registerUser = catchAsyncError(async (req,res,next) =>{
 
-    const {name,email,password,avatar} = req.body
+    const {name,email,password} = req.body
+
+    let avatar;
+    if(req.file){
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+    }
+
     const user = await User.create({
         name,
         email,
         password,
         avatar
+        
     });
 
     sendToken(user,201,res)
@@ -37,7 +44,7 @@ exports.loginuser = catchAsyncError(async(req,res,next) =>{
     const user = await User.findOne({email}).select('+password');
 
     if(!user){
-        return next(new errorHandler('Invalid email or password',401))
+        return next(new errorHandler('Please enter email or password',401))
     }
 
     if(!await user.isValidPassword(password)){
@@ -187,6 +194,27 @@ exports.updateProfile = catchAsyncError(async (req , res, next)=>{
 
 
 })
+
+
+
+
+// Delete My Account - /api/v1/myaccount
+exports.deleteMyAccount = catchAsyncError(async (req, res, next) => {
+    // Find the user by their ID
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        return next(new ErrorHandler('User  not found', 404));
+    }
+
+    // Delete the user account
+    await user.deleteOne();
+
+    res.status(200).json({
+        success: true,
+        message: 'Your account has been deleted successfully'
+    });
+});
 
 
 //admin roles

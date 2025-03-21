@@ -1,27 +1,27 @@
 import { Fragment, useEffect, useState } from "react";
 import MetaData from '../layouts/MetaData';
-import { clearAuthError, login } from "../../Actions/userActions";
+import { clearSellerError, loginSeller } from "../../Actions/sellerActions";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
-export default function Login(){
+export default function LoginSeller(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const dispatch =  useDispatch();
     const navigate =  useNavigate();
 
 
-    const { loading , error, isAuthenticated } = useSelector(state => state.authState)
+    const { loading , error, isAuthenticatedSeller } = useSelector(state => state.sellerState)
 
     const submitHandler = (e)=> {
         e.preventDefault();
-        dispatch(login(email,password))
+        dispatch(loginSeller(email,password))
     }
 
     useEffect(() => {
-        if(isAuthenticated){
+        if(isAuthenticatedSeller){
             navigate('/home')   //navigate the buyers home page
         }
 
@@ -29,25 +29,25 @@ export default function Login(){
             toast(error,{
                 position : 'bottom-center',
                 type : 'error',
-                onOpen : ()=>{ dispatch (clearAuthError)}
+                onOpen : ()=>{ dispatch (clearSellerError)}
             })
             return
         }
-    },[error,isAuthenticated , dispatch])
+    },[error,isAuthenticatedSeller , dispatch])
 
    
 
     return (
         <Fragment>
-    <MetaData title={`Login buyer`} />
+    <MetaData title={`Login Seller`} />
     <div className="flex justify-center items-center min-h-screen bg-gray-100 w-full">
         <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-hidden h-[90vh]"> {/* Adjusted height */}
             {/* Left Side: Background Image */}
-            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/login.jpg')" }}></div>
+           
 
             {/* Right Side: Login Form */}
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center"> {/* Centered form vertically */}
-                <h1 className="text-4xl font-bold text-center mb-4 text-gray-800">Welcome back Buyer!</h1>
+                <h1 className="text-4xl font-bold text-center mb-4 text-gray-800">Welcome back Seller!</h1>
                 <p className="text-center text-gray-600 mb-6">Enter your Credentials to access your account</p>
                 <form onSubmit={submitHandler} className="space-y-6">
                     <div>
@@ -87,10 +87,11 @@ export default function Login(){
                     </button>
 
                     <div className="text-center text-sm text-gray-600">
-                        <p>Don't have an account? <Link to="/register" className="text-blue-600 hover:text-blue-500">Sign Up</Link></p>
+                        <p>Don't have an account? <a href="#" className="text-blue-600 hover:text-blue-500">Sign Up</a></p>
                     </div>
                 </form>
             </div>
+            <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/login.jpg')" }}></div>
         </div>
     </div>
 </Fragment>

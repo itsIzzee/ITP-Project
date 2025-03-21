@@ -1,122 +1,117 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const authSlice = createSlice({
-    name: 'auth',
+const sellerSlice = createSlice({
+    name: 'seller',
     initialState: {
         loading: false,
-        isAuthenticated : false,
+        isAuthenticatedSeller : false,
      
     },
     reducers: {
-        loginRequest(state, action){
+        loginRequestSeller(state, action){
             return {
                 ...state,
                 loading: true,
             }
         },
-        loginSuccess(state, action){
+        loginSuccessSeller(state, action){
             return {
             
                 loading: false,
-                isAuthenticated : true,
-                user: action.payload.user
+                isAuthenticatedSeller : true,
+                seller: action.payload.seller
             }
         },
-        loginFail(state, action){
+        loginFailSeller(state, action){
             return {
                 ...state,
                 loading: false,
                 error:  action.payload
             }
         },
-        clearError(state, action){
+        clearSellError(state, action){
             return {
                 ...state,
                 error:  null
         }
 
     },
-
-    registerRequest(state, action){
+    registerRequestSeller(state, action){
         return {
             ...state,
             loading: true,
         }
     },
-    registerSuccess(state, action){
+    registerSuccessSeller(state, action){
         return {
         
             loading: false,
-            isAuthenticated : true,
-            user: action.payload.user
+            isAuthenticatedSeller : true,
+            seller: action.payload.seller
         }
     },
-    registerFail(state, action){
+    registerFailSeller(state, action){
         return {
             ...state,
             loading: false,
             error:  action.payload
         }
     },
-
-
-    loadUserRequest(state, action){
+    loadSellerRequest(state, action){
         return {
             ...state,
-            isAuthenticated: false,
+            isAuthenticatedSeller : false,
             loading: true,
         }
     },
-    loadUserSuccess(state, action){
+    loadSellerSuccess(state, action){
         return {
         
             loading: false,
-            isAuthenticated : true,
+            isAuthenticatedSeller : true,
             user: action.payload.user
         }
     },
-    loadUserFail(state, action){
+    loadSellerFail(state, action){
         return {
             ...state,
             loading: false,
             error:  action.payload
         }
     },
-    logoutSuccess(state, action){
+    logoutSellerSuccess(state, action){
         return {
         
             loading: false,
-            isAuthenticated : false,
+            isAuthenticatedSeller : false,
             
         }
     },
-    logoutfail(state, action){
+    logoutSellerfail(state, action){
         return {
             ...state,
             error:  action.payload
         }
     },
-    
-
    
 }
 });
 
-const { actions, reducer } = authSlice;
+const { actions, reducer } = sellerSlice;
 
-export const { loginRequest,
-    loginSuccess,
-    loginFail,
-    clearError,
-    registerRequest,
-    registerSuccess,
-    registerFail,
-    loadUserSuccess,
-    loadUserRequest,
-    loadUserFail,
-    logoutSuccess,
-    logoutfail
+export const { loginRequestSeller
+    ,loginSuccessSeller
+    ,loginFailSeller
+    ,clearSellError,
+    registerRequestSeller,
+    registerSuccessSeller,
+    registerFailSeller,
+    loadSellerRequest,
+    loadSellerSuccess,
+    loadSellerFail,
+    logoutSellerSuccess,
+    logoutSellerfail
 } = actions;
 
 export default reducer;
