@@ -82,7 +82,7 @@ exports.forgotPassword = catchAsyncError (async (req , res, next)=> {
    await user.save({validateBeforeSave: false})
 
    //create reset url using reset token
-   const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`
+   const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
    const message = `Your password reset url is as follows  \n\n ${resetUrl}  \n\n If you have not requested this E-mail then Ignore it`
 
    try{
@@ -173,12 +173,17 @@ exports.changePassword = catchAsyncError(async (req , res, next)=>{
 //update profile
 exports.updateProfile = catchAsyncError(async (req , res, next)=>{
 
-    const newUserData = {
+    let newUserData = {
         name : req.body.name,
         email : req.body.email,
 
     }
 
+    let avatar;
+    if(req.file){
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+        newUserData =   {...newUserData,avatar}
+    }
 
    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
         new : true,

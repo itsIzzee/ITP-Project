@@ -3,7 +3,7 @@ import MetaData from '../layouts/MetaData';
 import { clearSellerError, loginSeller } from "../../Actions/sellerActions";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function LoginSeller(){
@@ -75,7 +75,7 @@ export default function LoginSeller(){
                     </div>
 
                     <div className="flex items-center">
-                        <a href="#" className="text-blue-600 hover:text-blue-500 ml-auto text-sm">Forgot password?</a>
+                        <Link to="/password/forgotSeller" className="text-blue-600 hover:text-blue-500 ml-auto text-sm">Forgot password?</Link>
                     </div>
 
                     <button
@@ -87,7 +87,7 @@ export default function LoginSeller(){
                     </button>
 
                     <div className="text-center text-sm text-gray-600">
-                        <p>Don't have an account? <a href="#" className="text-blue-600 hover:text-blue-500">Sign Up</a></p>
+                        <p>Don't have an account? <Link to="/registerSeller" className="text-blue-600 hover:text-blue-500">Sign Up</Link></p>
                     </div>
                 </form>
             </div>

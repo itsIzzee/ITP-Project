@@ -1,3 +1,5 @@
+import { toast } from "react-toastify"
+import { logoutSuccess } from "../Slices/authSlice"
 import { loginFailSeller
     , loginRequestSeller, 
     loginSuccessSeller,
@@ -9,7 +11,22 @@ import { loginFailSeller
      loadSellerRequest,
      loadSellerFail,
      logoutSellerfail,
-     logoutSellerSuccess
+     logoutSellerSuccess,
+     updateProfileSellerFail,
+     updateProfileSellerRequest,
+     updateProfileSellerSuccess,
+     updatePasswordSellerFail,
+     updatePasswordSellerRequest,
+     updatePasswordSellerSuccess,
+     forgotPasswordSellerFail,
+     forgotPasswordSellerRequest,
+     forgotPasswordSellerSuccess,
+     resetPasswordSellerFail,
+     resetPasswordSellerRequest,
+     resetPasswordSellerSuccess,
+     deleteAccountSellerFail,
+     deleteAccountSellerRequest,
+     deleteAccountSellerSuccess
     } from "../Slices/sellerSlice"
 import axios from 'axios'
 
@@ -21,6 +38,7 @@ export const loginSeller = (email , password) => async (dispatch) => {
     try {
             dispatch(loginRequestSeller())
            const { data } = await axios.post(`/api/v1/loginSeller`, {email , password})
+           dispatch(logoutSuccess());
             dispatch(loginSuccessSeller(data))
         
     } catch (error) {
@@ -84,3 +102,106 @@ export const logoutSeller = async (dispatch) => {
         dispatch(logoutSellerfail)
     }
 } 
+
+
+export const updateProfileSeller = (sellerData) => async (dispatch) => {
+
+    try {
+        dispatch(updateProfileSellerRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/updateSeller`, sellerData , config)
+        dispatch(updateProfileSellerSuccess(data))
+        
+    } catch (error) {
+        
+        dispatch(updateProfileSellerFail(error.response.data.message))
+    }
+} 
+
+
+export const updatePasswordSeller = (formData) => async (dispatch) => {
+
+    try {
+        dispatch(updatePasswordSellerRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'application/json'
+            }
+        }
+         await axios.put(`/api/v1/password/changeSeller`,formData,config)
+        dispatch(updatePasswordSellerSuccess())
+        
+    } catch (error) {
+        
+        dispatch(updatePasswordSellerFail(error.response.data.message))
+    }
+} 
+
+
+export const forgotPasswordSeller = (formData) => async (dispatch) => {
+
+    try {
+        dispatch(forgotPasswordSellerRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'application/json'
+            }
+        }
+        const { data} =  await axios.post(`/api/v1/password/forgotSeller`,formData,config)
+        dispatch(forgotPasswordSellerSuccess(data))
+        
+    } catch (error) {
+        
+        dispatch(forgotPasswordSellerFail(error.response.data.message))
+    }
+} 
+
+
+export const resetPasswordSeller = (formData , token) => async (dispatch) => {
+
+    try {
+        dispatch(resetPasswordSellerRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'application/json'
+            }
+        }
+        const { data} =  await axios.post(`/api/v1/password/resetSeller/${token}`,formData,config)
+        dispatch(resetPasswordSellerSuccess(data))
+        
+    } catch (error) {
+        
+        dispatch(resetPasswordSellerFail(error.response.data.message))
+    }
+}
+
+export const deleteMyAccountSeller = () => async (dispatch) => {
+    try {
+        dispatch(deleteAccountSellerRequest());
+
+        const { data } = await axios.delete('/api/v1/deleteMyAccountSeller');
+        dispatch(deleteAccountSellerSuccess());
+
+        // Logout the SELLER after deletion
+        dispatch(logoutSellerSuccess());
+
+        // Show success toast
+        toast.success(data.message || 'Account deleted successfully',{
+            position:'bottom-center'
+        });
+    } catch (error) {
+        dispatch(deleteAccountSellerFail(error.response?.data?.message || 'Failed to delete account'));
+        
+        // Show error toast
+        toast.error(error.response?.data?.message || 'Failed to delete account',{
+            position:'bottom-center'
+        });
+    }
+};
+
+

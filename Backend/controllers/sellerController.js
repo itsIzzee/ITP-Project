@@ -87,7 +87,7 @@ exports.forgotPasswordSeller = catchAsyncError (async (req , res, next)=> {
    await seller.save({validateBeforeSave: false})
 
    //create reset url using reset token
-   const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/resetSeller/${resetToken}`
+   const resetUrl = `${process.env.FRONTEND_URL}/password/resetSeller/${resetToken}`
    const message = `Your password reset url is as follows  \n\n ${resetUrl}  \n\n If you have not requested this E-mail then Ignore it`
 
    try{
@@ -178,10 +178,16 @@ exports.changePasswordSeller = catchAsyncError(async (req , res, next)=>{
 //update profile seller
 exports.updateProfileSeller = catchAsyncError(async (req , res, next)=>{
 
-    const newSellerData = {
+    let newSellerData = {
         name : req.body.name,
         email : req.body.email,
 
+    }
+
+    let avatar;
+    if(req.file){
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+        newSellerData =   {...newSellerData ,avatar}
     }
 
 
@@ -259,11 +265,17 @@ exports.getSeller = catchAsyncError(async (req , res, next)=>{
 
 exports.updateSeller = catchAsyncError(async (req , res, next)=>{
     
-    const newSellerData = {
+    let  newSellerData = {
         name : req.body.name,
         email : req.body.email,
         role : req.body.role
 
+    }
+
+    let avatar;
+    if(req.file){
+        avatar = `${process.env.BACKEND_URL}/uploads/user/${req.file.originalname}`
+        newSellerData =   {...newSellerData,avatar}
     }
 
 

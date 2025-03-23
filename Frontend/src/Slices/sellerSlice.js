@@ -30,11 +30,12 @@ const sellerSlice = createSlice({
                 error:  action.payload
             }
         },
-        clearSellError(state, action){
+    clearSellError(state, action){
             return {
                 ...state,
                 error:  null
         }
+    
 
     },
     registerRequestSeller(state, action){
@@ -70,7 +71,7 @@ const sellerSlice = createSlice({
         
             loading: false,
             isAuthenticatedSeller : true,
-            user: action.payload.user
+            seller: action.payload.seller
         }
     },
     loadSellerFail(state, action){
@@ -85,6 +86,7 @@ const sellerSlice = createSlice({
         
             loading: false,
             isAuthenticatedSeller : false,
+            seller:null
             
         }
     },
@@ -94,6 +96,119 @@ const sellerSlice = createSlice({
             error:  action.payload
         }
     },
+    updateProfileSellerRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            isUpdatedSeller : false
+        }
+    },
+    updateProfileSellerSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            seller: action.payload.seller,
+            isUpdatedSeller : true
+        }
+    },
+    updateProfileSellerFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+    updatePasswordSellerRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            isUpdatedSeller : false
+        }
+    },
+    updatePasswordSellerSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            isUpdatedSeller : true
+        }
+    },
+    updatePasswordSellerFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+
+    forgotPasswordSellerRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            message : null
+           
+        }
+    },
+    forgotPasswordSellerSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            message : action.payload.message
+        }
+    },
+    forgotPasswordSellerFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+
+    resetPasswordSellerRequest(state, action){
+        return {
+            ...state,
+            loading: true
+           
+        }
+    },
+    resetPasswordSellerSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            isAuthenticatedSeller : true,
+            seller:action.payload.seller
+        }
+    },
+    resetPasswordSellerFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+    deleteAccountSellerRequest(state, action) {
+        return {
+            ...state,
+            loading: true,
+        };
+    },
+    deleteAccountSellerSuccess(state, action) {
+        return {
+            ...state,
+            loading: false,
+            isAuthenticatedSeller: false, // User is no longer authenticated
+            seller: null, // Clear user data
+        };
+    },
+    deleteAccountSellerFail(state, action) {
+        return {
+            ...state,
+            loading: false,
+            error: action.payload,
+        };
+   
+    },
+
+    
    
 }
 });
@@ -111,7 +226,22 @@ export const { loginRequestSeller
     loadSellerSuccess,
     loadSellerFail,
     logoutSellerSuccess,
-    logoutSellerfail
+    logoutSellerfail,
+    updateProfileSellerFail,
+    updateProfileSellerRequest,
+    updateProfileSellerSuccess,
+    updatePasswordSellerFail,
+    updatePasswordSellerRequest,
+    updatePasswordSellerSuccess,
+    forgotPasswordSellerFail,
+    forgotPasswordSellerRequest,
+    forgotPasswordSellerSuccess,
+    resetPasswordSellerFail,
+    resetPasswordSellerRequest,
+    resetPasswordSellerSuccess,
+    deleteAccountSellerFail,
+    deleteAccountSellerRequest,
+    deleteAccountSellerSuccess
 } = actions;
 
 export default reducer;

@@ -1,18 +1,22 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { thunk } from "redux-thunk";
-import authReducer from './Slices/authSlice'
-import sellerReducer from './Slices/sellerSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./Slices/authSlice";
+import sellerReducer from "./Slices/sellerSlice";
 
-const reducer = combineReducers({
-  // Your reducers here
-  authState : authReducer,
-  sellerState : sellerReducer
-});
+// Combine reducers
+const reducer = {
+  authState: authReducer,
+  sellerState: sellerReducer,
+};
 
+// Create the store
 const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
-  devTools: true, // Enable Redux DevTools
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      // Customize middleware options if needed
+      serializableCheck: false, // Disable serializable check for non-serializable values (e.g., functions in actions)
+    }),
+  devTools: process.env.NODE_ENV !== "production", // Enable Redux DevTools in development
 });
 
 export default store;

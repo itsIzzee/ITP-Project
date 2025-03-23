@@ -3,7 +3,7 @@ import MetaData from '../layouts/MetaData';
 import { useDispatch, useSelector } from "react-redux";
 import { register , clearAuthError } from "../../Actions/userActions";
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 
 
@@ -165,7 +165,7 @@ export default function Register(){
         
                 {/* Sign In Link */}
                 <div className="text-center text-sm text-gray-600">
-                    <p>Already have an account? <a href="#" className="text-blue-600 hover:text-blue-500">Sign In</a></p>
+                    <p>Already have an account? <Link to = "/login" className="text-blue-600 hover:text-blue-500">Sign In</Link></p>
                 </div>
                 </form>
             </div>

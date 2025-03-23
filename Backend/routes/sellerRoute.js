@@ -38,7 +38,7 @@ router.route('/password/forgotSeller').post(forgotPasswordSeller);
 router.route('/password/resetSeller/:token').post(resetPasswordSeller);
 router.route('/myprofileSeller').get(isAuthenticatedSeller,getSellerProfile);
 router.route('/password/changeSeller').put(isAuthenticatedSeller,changePasswordSeller);
-router.route('/updateSeller').put(isAuthenticatedSeller,updateProfileSeller);
+router.route('/updateSeller').put(isAuthenticatedSeller,upload.single('avatar'),updateProfileSeller);
 router.route('/deleteMyAccountSeller').delete(isAuthenticatedSeller,deleteMyAccountSeller);
 
 

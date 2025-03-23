@@ -6,6 +6,8 @@ const authSlice = createSlice({
     initialState: {
         loading: false,
         isAuthenticated : false,
+        user: null,
+        error: null,
      
     },
     reducers: {
@@ -30,7 +32,7 @@ const authSlice = createSlice({
                 error:  action.payload
             }
         },
-        clearError(state, action){
+        clearUserError(state, action){
             return {
                 ...state,
                 error:  null
@@ -88,6 +90,7 @@ const authSlice = createSlice({
         
             loading: false,
             isAuthenticated : false,
+            user : null
             
         }
     },
@@ -97,6 +100,120 @@ const authSlice = createSlice({
             error:  action.payload
         }
     },
+    updateProfileRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            isUpdated : false
+        }
+    },
+    updateProfileSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            user: action.payload.user,
+            isUpdated : true
+        }
+    },
+    updateProfileFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+    updatePasswordRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            isUpdated : false
+        }
+    },
+    updatePasswordSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            isUpdated : true
+        }
+    },
+    updatePasswordFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+
+
+   forgotPasswordRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+            message : null
+           
+        }
+    },
+    forgotPasswordSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            message : action.payload.message
+        }
+    },
+    forgotPasswordFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+
+    resetPasswordRequest(state, action){
+        return {
+            ...state,
+            loading: true
+           
+        }
+    },
+    resetPasswordSuccess(state, action){
+        return {
+            ...state,
+            loading: false,
+            isAuthenticated : true,
+            user:action.payload.user
+        }
+    },
+    resetPasswordFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+
+    deleteAccountRequest(state, action) {
+        return {
+            ...state,
+            loading: true,
+        };
+    },
+    deleteAccountSuccess(state, action) {
+        return {
+            ...state,
+            loading: false,
+            isAuthenticated: false, // User is no longer authenticated
+            user: null, // Clear user data
+        };
+    },
+    deleteAccountFail(state, action) {
+        return {
+            ...state,
+            loading: false,
+            error: action.payload,
+        };
+    },
+
+
     
 
    
@@ -108,7 +225,7 @@ const { actions, reducer } = authSlice;
 export const { loginRequest,
     loginSuccess,
     loginFail,
-    clearError,
+    clearUserError,
     registerRequest,
     registerSuccess,
     registerFail,
@@ -116,7 +233,22 @@ export const { loginRequest,
     loadUserRequest,
     loadUserFail,
     logoutSuccess,
-    logoutfail
+    logoutfail,
+    updateProfileFail,
+    updateProfileRequest,
+    updateProfileSuccess,
+    updatePasswordFail,
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    forgotPasswordFail,
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    resetPasswordFail,
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    deleteAccountFail,
+    deleteAccountRequest,
+    deleteAccountSuccess
 } = actions;
 
 export default reducer;

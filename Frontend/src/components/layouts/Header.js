@@ -13,9 +13,11 @@ const dispatch = useDispatch();
 const navigate = useNavigate();
   const logoutHandler = () => {
     dispatch(logout)
+     navigate('/home')
   }
   const logoutSellerHandler = () => {
     dispatch(logoutSeller)
+     navigate('/home')
   }
 
   
@@ -78,31 +80,34 @@ const navigate = useNavigate();
               <span className="text-[#F5E1C9]">
                 {isAuthenticated ? 
                   (
-                    <Dropdown className='d-inline'>
+                    <Dropdown className='dropdown-container d-inline'>
                       <Dropdown.Toggle variant='default text-white pr-5' id='dropdown-basic'>
                         <figure className='avatar avatar-nav'>
-                          <Image width="50px" src={user.avatar??'./default.png'} />
+                          <Image width="50px" src={user?.avatar} />
                         </figure>
-                        <span>{user.name}</span>
+                        <span>{user?.name}</span>
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => {navigate('/myprofile')}} className="text-danger">Profile</Dropdown.Item>
-                      <Dropdown.Item onClick={logoutHandler} className="text-danger">Logout</Dropdown.Item>
+                          <Dropdown.Item onClick={() => {navigate('/myprofile')}} className="text">Profile</Dropdown.Item>
+                          <Dropdown.Item onClick={logoutHandler} className="text-danger">Logout</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
-                  )
+
+               
+
+      )
                 
                 
                 :  (
-                  <Dropdown className='d-inline'>
+                  <Dropdown className='dropdown-container d-inline'>
                     <Dropdown.Toggle variant='default text-white pr-5' id='dropdown-basic'>
                       <figure className='avatar avatar-nav'>
-                        <Image width="50px" src={seller.avatar??'./default.png'} />
+                        <Image width="50px" src={seller?.avatar} />
                       </figure>
-                      <span>{seller.name}</span>
+                      <span>{seller?.name}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => {navigate('/profileseller')}} className="text-danger">Profile</Dropdown.Item>
+                      <Dropdown.Item onClick={() => {navigate('/profileseller')}} className="text">Profile</Dropdown.Item>
                       <Dropdown.Item onClick={logoutSellerHandler} className="text-danger">Logout</Dropdown.Item>
 
                     </Dropdown.Menu>
@@ -122,15 +127,15 @@ const navigate = useNavigate();
 
                 {/* Dropdown Menu */}
                 <div className="absolute right-0 mt-2 w-44 bg-[#5A3821] shadow-lg rounded-lg overflow-hidden opacity-0 group-hover:opacity-100 transition duration-300">
-                  <Link to="/buyer/login" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
+                  <Link to="/login" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
                     Login
                   </Link>
-                  <Link to="/buyer/register" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
+                  <Link to="/register" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
                     Register
                   </Link>
                 </div>
               </div>
-
+              <p>  </p>
               {/* Seller Dropdown */}
               <div className="relative group">
                 <button className="flex items-center text-[#F5E1C9] hover:text-[#D2B48C] transition duration-300">
@@ -139,10 +144,10 @@ const navigate = useNavigate();
 
                 {/* Dropdown Menu */}
                 <div className="absolute right-0 mt-2 w-44 bg-[#5A3821] shadow-lg rounded-lg overflow-hidden opacity-0 group-hover:opacity-100 transition duration-300">
-                  <Link to="/seller/login" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
+                  <Link to="/loginseller" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
                     Login
                   </Link>
-                  <Link to="/seller/register" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
+                  <Link to="/registerseller" className="block px-4 py-2 text-[#F5E1C9] hover:bg-[#8C6B52] transition">
                     Register
                   </Link>
                 </div>

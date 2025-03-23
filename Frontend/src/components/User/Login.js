@@ -75,7 +75,7 @@ export default function Login(){
                     </div>
 
                     <div className="flex items-center">
-                        <a href="#" className="text-blue-600 hover:text-blue-500 ml-auto text-sm">Forgot password?</a>
+                        <Link to="/password/forgot" className="text-blue-600 hover:text-blue-500 ml-auto text-sm">Forgot password?</Link>
                     </div>
 
                     <button
