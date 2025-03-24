@@ -29,8 +29,7 @@ export default function ProfileSeller() {
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 w-full">
             <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-hidden h-[90vh]">
-                {/* Left Side: Background Image */}
-                <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/login.jpg')" }}></div>
+                
 
                 {/* Right Side: Profile Content */}
                 <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
@@ -70,6 +69,13 @@ export default function ProfileSeller() {
                             Change Password
                         </Link>
 
+                        <Link
+                            to="/sellerInfoProfile"
+                            className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-center block hover:bg-blue-700 transition duration-300"
+                        >
+                            Seller Info
+                        </Link>
+
                         {/* Delete Account Button */}
                         <button
                             onClick={handleDeleteAccount}
@@ -79,6 +85,7 @@ export default function ProfileSeller() {
                         </button>
                     </div>
                 </div>
+                <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/login.jpg')" }}></div>
             </div>
         </div>
     );

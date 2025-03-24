@@ -39,10 +39,45 @@ const userSchema = new mongoose.Schema({
         type : Date
     },
 
+    twoFACode: {
+        type :String
+    },
+
+    twoFAExpires: {
+        type:Date
+    },
+
     createdAt :{
         type : Date,
         default: Date.now
-    }
+    },
+
+    shippingAddress: {
+        type: String,
+         default:""
+    },
+    billingAddress: {
+        type: String,
+         default:""
+    },
+   
+    wishlist: {
+        type: String,
+        default:""
+    },
+    
+    notificationPreferences: {
+        type: String,
+    },
+   
+    feedbacks: {
+        type: String,
+         default:""
+    },
+    productsInterested: {
+        type: String,
+       default:""
+    },
 
 })
 
@@ -77,6 +112,19 @@ const userSchema = new mongoose.Schema({
         return token;
 
         }
+
+        userSchema.methods.generate2FACode = function() {
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            this.twoFACode = code;
+            this.twoFAExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+            return code;
+          };
+          
+          userSchema.methods.clear2FACode = function() {
+            this.twoFACode = undefined;
+            this.twoFAExpires = undefined;
+            return this.save({ validateBeforeSave: false });
+          };
   
 
 

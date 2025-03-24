@@ -26,7 +26,19 @@ import ForgotPasswordSeller from './components/User/ForgotPasswordSeller';
 import ResetPassword from './components/User/ResetPassword';
 import ResetPasswordSeller from './components/User/ResetPasswordSeller';
 import UserInfoComponent from './components/Info/UserInfoComponent'; // Import the new component
+
+import AddUserInfoComponent from "./components/Info/AddUserInfoComponent";
+import UpdateUserInfoComponent from "./components/Info/UpdateUserInfoComponent";
 import { useDispatch } from 'react-redux';
+
+import RegisterUserInfo from './components/User/RegisterUserInfo';
+import ProfileUserInfo from './components/User/ProfileUserInfo';
+import UpdateUserInfo from './components/User/UpdateUserInfo';
+
+import ProfileSellerInfo from './components/User/ProfileSellerInfo';
+import UpdateSellerInfo from './components/User/UpdateSellerInfo';
+
+
 
 function App() {
 
@@ -34,13 +46,15 @@ function App() {
   // Load user and seller data on app mount
   useEffect(() => {
     store.dispatch(loaduser());
-  }, []);
+  }, [dispatch]);
 
   
 
   useEffect(() => {
     store.dispatch(loadSeller());
-  }, []);
+  }, [dispatch]);
+
+  
 
   return (
     <Router>
@@ -59,6 +73,13 @@ function App() {
             {/* Register */}
             <Route path="/register" element={<Register />} />
             <Route path="/registerSeller" element={<RegisterSeller />} />
+
+
+
+
+            <Route path="/registerUserInfo" element={<RegisterUserInfo />} />
+            
+
 
             {/* Profile */}
             <Route
@@ -131,6 +152,50 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            
+            {/* User Info */}
+            <Route
+              path="/userInfoProfile"
+              element={
+                <ProtectedRoute>
+                  <ProfileUserInfo />
+                  </ProtectedRoute>
+              }
+            />
+
+
+
+              <Route
+              path="/sellerInfoProfile"
+              element={
+                <ProtectedRouteSeller>
+                  <ProfileSellerInfo />
+                  </ProtectedRouteSeller>
+              }
+            />
+
+            <Route
+              path="/updateSellerInfo"
+              element={
+                <ProtectedRouteSeller>
+                  <UpdateSellerInfo />
+                  </ProtectedRouteSeller>
+              }
+            />
+
+               {/* User Info */}
+               <Route
+              path="/updateUserInfo"
+              element={
+                <ProtectedRoute>
+                  <UpdateUserInfo />
+                  </ProtectedRoute>
+              }
+            />
+
+          <Route path="/add-user-info" element={<AddUserInfoComponent />} />
+          <Route path="/update-user-info" element={<UpdateUserInfoComponent />} />
           </Routes>
           <Footer />
         </HelmetProvider>

@@ -14,6 +14,14 @@ export default function Register(){
         name : "",
         email : "",
         password : "",
+        shippingAddress : "",
+        billingAddress : "",
+        wishlist : "",
+        notificationPreferences : "",
+        feedbacks : "",
+        productsInterested : "",
+        
+
     });
 
     const [avatar , setAvatar] = useState();
@@ -24,7 +32,7 @@ export default function Register(){
 
     const onChange  = (e) => {
         if(e.target.name === 'avatar'){
-            const reader = new FileReader;
+            const reader = new FileReader();
             reader.onload = () => {
                 if(reader.readyState === 2){
                     setAvatarPreview(reader.result);
@@ -47,12 +55,18 @@ export default function Register(){
         formData.append('email' , userData.email)
         formData.append('password' , userData.password)
         formData.append('avatar' , avatar)
+        formData.append('shippingAddress', userData.shippingAddress);
+        formData.append('billingAddress', userData.billingAddress);
+        formData.append('wishlist', userData.wishlist);
+        formData.append('notificationPreferences', userData.notificationPreferences);
+        formData.append('feedbacks', userData.feedbacks);
+        formData.append('productsInterested', userData.productsInterested);
         dispatch(register(formData))
     }
 
     useEffect(()=>{
         if(isAuthenticated){
-            navigate('/login');
+            navigate('/home');
             return
         }
 
@@ -65,13 +79,13 @@ export default function Register(){
             return
                 }
 
-    },[error , isAuthenticated])
+    },[error , isAuthenticated,dispatch,navigate])
 
     return(
         <Fragment>
             <MetaData title={`Register buyer`} />
         <div className="flex justify-center items-center min-h-screen bg-gray-100 w-full">
-            <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-hidden h-[90vh]">
+        <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-y-auto my-8"> {/* Changed to overflow-y-auto and added my-8 */}
             {/* Left Side: Background Image */}
             <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/login.jpg')" }}></div>
         
@@ -154,6 +168,100 @@ export default function Register(){
                 </div>
                 </div>
         
+                <h2 className="text-2xl font-bold mb-4 text-center ">
+                        Add User Information
+                    </h2>
+
+                    <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">
+                                Shipping Address
+                            </label>
+                            <input
+                                name="shippingAddress"
+                                type="text"
+                                placeholder="Enter Shipping Address"
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                onChange={onChange}
+                            />
+                        </div>
+
+                         {/* Billing Address */}
+                         <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">
+                                Billing Address
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Enter Billing Address"
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                name="billingAddress"
+                                onChange={onChange}
+                            />
+                        </div>
+
+
+                           {/* Wishlist */}
+                           <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">Wishlist</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Wishlist (comma-separated)"
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                name="wishlist"
+                                onChange={onChange}
+                            />
+                        </div>
+
+                    {/* Feedbacks */}
+                    <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">Feedbacks</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Feedbacks"
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                name="feedbacks"
+                                onChange={onChange}
+                            />
+                        </div>
+
+                        {/* Products Interested */}
+                        <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">
+                                Products Interested
+                            </label>
+                            <select
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                name="productsInterested"
+                                onChange={onChange}
+                            >
+                                <option value="">Select a product category</option>
+                                <option value="Handicrafts & Art">Handicrafts & Art</option>
+                                <option value="Ayurvedic & Herbal Products">
+                                    Ayurvedic & Herbal Products
+                                </option>
+                                <option value="Jewelry & Accessories">Jewelry & Accessories</option>
+                                <option value="Food & Spices">Food & Spices</option>
+                                <option value="Home & Decor">Home & Decor</option>
+                            </select>
+                        </div>
+
+                       {/* Notification Preferences */}
+                            <div>
+                                <label className="block text-sm font-medium text-brown-600 text-left">Notification Preferences</label>
+                                <select
+                                    name="notificationPreferences"
+                                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    onChange={onChange}
+                                >
+                                    <option value="none">None</option>
+                                    <option value="email">Email</option>
+                                    <option value="sms">SMS</option>
+                                    <option value="both">Email & SMS</option>
+                                </select>
+                            </div>
+
+
+
                 {/* Register Button */}
                 <button
                     type="submit"

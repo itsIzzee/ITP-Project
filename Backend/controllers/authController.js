@@ -7,10 +7,13 @@ const sendToken = require('../Utils/jwt')
 const crypto = require ('crypto')
 
 
+
 //Register User - /api/v1/register
 exports.registerUser = catchAsyncError(async (req,res,next) =>{
 
-    const {name,email,password} = req.body
+    const {name,email,password,shippingAddress,billingAddress,wishlist,notificationPreferences,feedbacks,
+            productsInterested
+    } = req.body
 
     let avatar;
     if(req.file){
@@ -21,13 +24,45 @@ exports.registerUser = catchAsyncError(async (req,res,next) =>{
         name,
         email,
         password,
-        avatar
+        avatar,shippingAddress,billingAddress,wishlist,notificationPreferences,feedbacks,
+        productsInterested
         
     });
 
     sendToken(user,201,res)
 
 })
+//Register User Info- /api/v1/registerUserInfo
+// exports.registerUserInfo = catchAsyncError(async (req,res,next) =>{
+//     let newUserData = {
+//     shippingAddress: req.body.shippingAddress,
+//     billingAddress: req.body.billingAddress,
+//     wishlist: req.body.wishlist,
+//     notificationPreferences: req.body.notificationPreferences,
+//     feedbacks: req.body.feedbacks,
+//     productsInterested: req.body.productsInterested
+// };
+
+// const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+//     new: true,
+//     runValidators: true
+// });
+
+//     if (!user) {
+//         return res.status(404).json({
+//             success: false,
+//             message: 'User not found',
+//         });
+//     }
+
+//     res.status(200).json({
+//         success: true,
+//         message: 'User information updated successfully',
+//         user,
+//     });
+
+// })
+
 
 
 //Login User - /api/v1/login
@@ -176,7 +211,12 @@ exports.updateProfile = catchAsyncError(async (req , res, next)=>{
     let newUserData = {
         name : req.body.name,
         email : req.body.email,
-
+        shippingAddress : req.body.shippingAddress,
+        billingAddress : req.body.billingAddress,
+        wishlist : req.body.wishlist,
+        notificationPreferences : req.body.notificationPreferences,
+        feedbacks : req.body.feedbacks,
+        productsInterested : req.body.productsInterested,
     }
 
     let avatar;
@@ -212,8 +252,12 @@ exports.deleteMyAccount = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler('User  not found', 404));
     }
 
+    
+
     // Delete the user account
     await user.deleteOne();
+
+
 
     res.status(200).json({
         success: true,

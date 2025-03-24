@@ -12,13 +12,13 @@ app.use('/uploads', express.static(path.join(__dirname,'/uploads')))
 
 const auth = require('./routes/auth')
 const seller = require ('./routes/sellerRoute')
-const userInformation = require('./routes/info'); // New route for user and seller information
+
 
 
 
 app.use('/api/v1/',auth);
 app.use('/api/v1/',seller);
-app.use('/api/v1/', userInformation); // Integrate user and seller information routes
+
 
 
 

@@ -12,7 +12,9 @@ const crypto = require ('crypto')
 //Register seller - /api/v1/registerSeller
 exports.registerSeller = catchAsyncError(async (req,res,next) =>{
 
-    const {name,email,password} = req.body
+    const {name,email,password,businessName,businessAddress,storeLocation,businessRegistrationNo,acceptedPaymentMethods,
+        customerReviews,commissionFees,productTypesSelling
+    } = req.body
 
 
     let avatar;
@@ -23,7 +25,9 @@ exports.registerSeller = catchAsyncError(async (req,res,next) =>{
         name,
         email,
         password,
-        avatar
+        avatar,
+        businessName,businessAddress,storeLocation,businessRegistrationNo,acceptedPaymentMethods,
+        customerReviews,commissionFees,productTypesSelling
     });
 
     sendTokenSeller(seller,201,res)
@@ -181,6 +185,13 @@ exports.updateProfileSeller = catchAsyncError(async (req , res, next)=>{
     let newSellerData = {
         name : req.body.name,
         email : req.body.email,
+        businessName:req.body.businessName,
+        businessAddress:req.body.businessAddress,
+        storeLocation:req.body.storeLocation,
+        customerReviews:req.body.customerReviews,
+        commissionFees:req.body.commissionFees,
+        productTypesSelling:req.body.productTypesSelling,
+
 
     }
 

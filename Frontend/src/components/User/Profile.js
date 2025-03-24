@@ -73,7 +73,7 @@ export default function Profile() {
 
             {/* User Info Button */}
             <Link
-              to="/user-info"
+              to="/userInfoProfile"
               className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg text-center block hover:bg-blue-700 transition duration-300"
             >
               User Info

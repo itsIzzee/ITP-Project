@@ -74,7 +74,7 @@ export const registerSeller = (sellerData) => async (dispatch) => {
 
 
 
-export const loadSeller = async (dispatch) => {
+export const loadSeller = ()=>async (dispatch) => {
 
     try {
         dispatch(loadSellerRequest())

@@ -23,12 +23,18 @@ const { registerUser,
     getUser,
     updateUser,
     deleteUser,
-    deleteMyAccount
+    deleteMyAccount,
+    registerUserInfo
 } = require('../controllers/authController');
 const router = express.Router();
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/authenticate');
 
 router.route('/register').post(upload.single('avatar'),registerUser);
+
+router.route('/registerUserInfo').put(isAuthenticatedUser,registerUserInfo);
+
+
+
 router.route('/login').post(loginuser);
 router.route('/logout').get(logoutUser);
 router.route('/password/forgot').post(forgotPassword);

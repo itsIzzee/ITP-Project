@@ -2,10 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Slices/authSlice";
 import sellerReducer from "./Slices/sellerSlice";
 
+
+
 // Combine reducers
 const reducer = {
   authState: authReducer,
   sellerState: sellerReducer,
+
+
+
 };
 
 // Create the store

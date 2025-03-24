@@ -12,6 +12,19 @@ export default function RegisterSeller(){
         name : "",
         email : "",
         password : "",
+        businessName : "",
+        businessAddress : "",
+        storeLocation : "",
+        businessRegistrationNo : "",
+        acceptedPaymentMethods : "",
+        customerReviews : "",
+        commissionFees : "",
+        productTypesSelling : "",
+        
+
+
+
+
     });
 
     const [avatar , setAvatar] = useState();
@@ -47,6 +60,14 @@ export default function RegisterSeller(){
             formData.append('email' , sellerData.email)
             formData.append('password' , sellerData.password)
             formData.append('avatar' , avatar)
+            formData.append('businessName' , sellerData.businessName)
+            formData.append('businessAddress' , sellerData.businessAddress)
+            formData.append('storeLocation' , sellerData.storeLocation)
+            formData.append('businessRegistrationNo' , sellerData.businessRegistrationNo)
+            formData.append('acceptedPaymentMethods' , sellerData.acceptedPaymentMethods)
+            formData.append('customerReviews' , sellerData.customerReviews)
+            formData.append('commissionFees' , sellerData.commissionFees)
+            formData.append('productTypesSelling' , sellerData.productTypesSelling)
             dispatch(registerSeller(formData))
         }
 
@@ -71,7 +92,7 @@ export default function RegisterSeller(){
         <Fragment>
             <MetaData title={`Register Seller`} />
         <div className="flex justify-center items-center min-h-screen bg-gray-100 w-full">
-            <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-hidden h-[90vh]">
+            <div className="w-full max-w-7xl flex bg-white rounded-3xl shadow-lg overflow-y-auto my-8">
            
             {/* Right Side: Registration Form */}
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
@@ -151,7 +172,127 @@ export default function RegisterSeller(){
                     </div>
                 </div>
                 </div>
-        
+
+                <h2 className="text-2xl font-bold mb-4 text-center ">
+                        Add User Information
+                    </h2>
+
+
+                    <div>
+                            <label className="block text-sm font-medium text-brown-600 text-left">
+                               Business Name
+                            </label>
+                            <input
+                                name="businessName"
+                                type="text"
+                                placeholder="Business Name"
+                                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                onChange={onChange}
+                            />
+                        </div>
+
+                        <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Business Address
+                    </label>
+                    <input
+                    name="businessAddress"
+                    type="text"
+                    placeholder="Business Address"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+
+                {/* Store Location */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Store Location
+                    </label>
+                    <input
+                    name="storeLocation"
+                    type="text"
+                    placeholder="Store Location"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+
+                {/* Business Registration No */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Business Registration No
+                    </label>
+                    <input
+                    name="businessRegistrationNo"
+                    type="text"
+                    placeholder="Business Registration No"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+
+                {/* Accepted Payment Methods */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                        Accepted Payment Methods
+                    </label>
+                    <select
+                        name="acceptedPaymentMethods"
+                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                        onChange={onChange}
+                        defaultValue=""
+                    >
+                        <option value="" disabled>Select Payment Method</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Card">Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cryptocurrency">Cryptocurrency</option>
+                    </select>
+                    </div>
+
+                {/* Customer Reviews */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Customer Reviews
+                    </label>
+                    <textarea
+                    name="customerReviews"
+                    placeholder="Customer Reviews"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+
+                {/* Commission Fees */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Commission Fees
+                    </label>
+                    <input
+                    name="commissionFees"
+                    type="number"
+                    placeholder="Commission Fees (%)"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+
+                {/* Product Types Selling */}
+                <div>
+                    <label className="block text-sm font-medium text-brown-600 text-left">
+                    Product Types Selling
+                    </label>
+                    <input
+                    name="productTypesSelling"
+                    type="text"
+                    placeholder="Product Types (e.g., Handmade, Electronics, Clothing)"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    onChange={onChange}
+                    />
+                </div>
+                        
                 {/* Register Button */}
                 <button
                     type="submit"

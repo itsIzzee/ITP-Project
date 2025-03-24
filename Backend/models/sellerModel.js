@@ -42,7 +42,35 @@ const sellerSchema = new mongoose.Schema({
     createdAt :{
         type : Date,
         default: Date.now
-    }
+    },
+
+    businessName: {
+        type: String,
+        
+    },
+    businessAddress: {
+        type: String,
+        
+    },
+    storeLocation: {
+        type: String,
+        
+    },
+    businessRegistrationNo: {
+        type: String,
+    },
+    acceptedPaymentMethods:  {
+        type: String,
+    },
+    customerReviews:  {
+        type: String,
+    },
+    commissionFees: { 
+        type: Number
+        },
+    productTypesSelling:  {
+        type: String,
+    },
 
 })
 

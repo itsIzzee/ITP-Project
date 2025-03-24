@@ -24,7 +24,10 @@ import { loginFail,
     resetPasswordSuccess,
     deleteAccountFail,
     deleteAccountRequest,
-    deleteAccountSuccess
+    deleteAccountSuccess,
+    registerUserInfoFail,
+    registerUserInfoSuccess,
+    registerUserInfoRequest
 } from "../Slices/authSlice"
 import axios from 'axios'
 import { logoutSellerSuccess } from "../Slices/sellerSlice"
@@ -39,7 +42,7 @@ export const login = (email , password) => async (dispatch) => {
             dispatch(loginRequest())
            const { data } = await axios.post(`/api/v1/login`, {email , password})
            dispatch(logoutSellerSuccess());
-            dispatch(loginSuccess(data))
+           dispatch(loginSuccess(data));
         
     } catch (error) {
         
@@ -47,7 +50,7 @@ export const login = (email , password) => async (dispatch) => {
     }
 } 
 
-export const clearAuthError = dispatch => {
+export const clearAuthError = ()=> (dispatch) => {
     dispatch(clearUserError())
 }
 
@@ -64,7 +67,9 @@ export const register = (userData) => async (dispatch) => {
         }
 
         const { data } = await axios.post(`/api/v1/register`, userData , config)
-        dispatch(registerSuccess(data))
+            // Dispatch action with new fields after successful registration
+    dispatch(registerSuccess(data));
+        
         
     } catch (error) {
         
@@ -72,15 +77,43 @@ export const register = (userData) => async (dispatch) => {
     }
 } 
 
+export const registerUserInfo = (userData) => async (dispatch) => {
+
+     try {
+        dispatch(registerUserInfoRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/registerUserInfo`, userData , config)
+        dispatch(registerUserInfoSuccess({
+            ...data,
+            shippingAddress: userData.shippingAddress,
+            billingAddress: userData.billingAddress,
+            wishlist: userData.wishlist,
+            notificationPreferences: userData.notificationPreferences,
+            feedbacks: userData.feedbacks,
+            productsInterested: userData.productsInterested
+          }));
+        
+    } catch (error) {
+        
+        dispatch(registerUserInfoFail(error.response.data.message))
+    }
+} 
+
 
 
 //Load User Action (Get User Profile)
+
 export const loaduser = () => async (dispatch) => {
   try {
     dispatch(loadUserRequest()); // Dispatch loading state
 
     const { data } = await axios.get("/api/v1/myprofile"); // Fetch user data
-    dispatch(loadUserSuccess(data.user)); // Dispatch success with user data
+    dispatch(loadUserSuccess(data));// Dispatch success with user data // Dispatch success with user data
   } catch (error) {
     dispatch(loadUserFail(error.response?.data?.message || "Failed to load user")); // Dispatch error
   }
@@ -94,9 +127,10 @@ export const logout = async (dispatch) => {
         await axios.get(`/api/v1/logout`)
         dispatch(logoutSuccess())
         
+        
     } catch (error) {
         
-        dispatch(logoutfail)
+        dispatch(logoutfail(error.response.data.message))
     }
 } 
 
@@ -118,6 +152,28 @@ export const updateProfile = (userData) => async (dispatch) => {
         dispatch(updateProfileFail(error.response.data.message))
     }
 } 
+
+export const updateUserInfo = (userData) => async (dispatch) => {
+
+    try {
+        dispatch(updateProfileRequest())
+        const config = {
+            headers : {
+                'Content-type' : 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/update`, userData , config)
+        dispatch(updateProfileSuccess(data))
+        
+    } catch (error) {
+        
+        dispatch(updateProfileFail(error.response.data.message))
+    }
+} 
+
+
+
 
 
 export const updatePassword = (formData) => async (dispatch) => {
@@ -186,6 +242,7 @@ export const deleteMyAccount = () => async (dispatch) => {
 
         // Logout the user after deletion
         dispatch(logoutSuccess());
+  
 
         // Show success toast
         toast.success(data.message || 'Account deleted successfully',{
