@@ -28,7 +28,7 @@ export default function ResetPassword(){
                 type: 'success',
                 position : 'bottom-center'
             })
-            navigate('/home')
+            navigate('/login')
             return;
         }
 
@@ -36,7 +36,7 @@ export default function ResetPassword(){
             toast(error,{
                 position : 'bottom-center',
                 type : 'error',
-                onOpen : ()=>{ dispatch (clearAuthError)}
+                // onOpen : ()=>{ dispatch (clearAuthError)}
             })
             return
                 }

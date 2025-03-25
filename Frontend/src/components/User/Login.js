@@ -21,8 +21,8 @@ export default function Login(){
     }
 
     useEffect(() => {
-        if(isAuthenticated){
-            navigate('/home')   //navigate the buyers home page
+        if(isAuthenticated ){
+            navigate('/send2fa')   
         }
 
         if(error) {

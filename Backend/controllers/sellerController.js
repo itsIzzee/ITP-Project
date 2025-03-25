@@ -104,11 +104,7 @@ exports.verify2FASeller = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: '2FA verification successful',
-        seller: {
-            id: seller._id,
-            email: seller.email,
-            is2FAVerified: true
-        }
+        seller
     });
 });
 

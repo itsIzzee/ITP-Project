@@ -38,6 +38,52 @@ const sellerSlice = createSlice({
     
 
     },
+    
+         initiate2FARequestSeller(state) {
+            return {
+                ...state,
+                loading: true
+            };
+        },
+        initiate2FASuccessSeller(state, action) {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload
+            };
+        },
+        initiate2FAFailSeller(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        },
+        verify2FARequestSeller(state) {
+            return {
+                ...state,
+                loading: true
+            };
+        },
+        verify2FASuccessSeller(state, action) {
+            return {
+                ...state,
+                loading: false,
+                is2FAVerified: true,
+                seller: action.payload.seller,
+    
+                 
+            };
+        },
+        verify2FAFailSeller(state, action) {
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        },
+        
+    
     registerRequestSeller(state, action){
         return {
             ...state,
@@ -241,7 +287,13 @@ export const { loginRequestSeller
     resetPasswordSellerSuccess,
     deleteAccountSellerFail,
     deleteAccountSellerRequest,
-    deleteAccountSellerSuccess
+    deleteAccountSellerSuccess,
+    initiate2FAFailSeller,
+    initiate2FARequestSeller,
+    initiate2FASuccessSeller,
+    verify2FAFailSeller,
+    verify2FARequestSeller,
+    verify2FASuccessSeller
 } = actions;
 
 export default reducer;

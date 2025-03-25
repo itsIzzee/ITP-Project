@@ -66,7 +66,7 @@ export default function Register(){
 
     useEffect(()=>{
         if(isAuthenticated){
-            navigate('/home');
+            navigate('/login');
             return
         }
 
@@ -74,7 +74,7 @@ export default function Register(){
             toast(error,{
                 position : 'bottom-center',
                 type : 'error',
-                onOpen : ()=>{ dispatch (clearAuthError)}
+                // onOpen : ()=>{ dispatch (clearAuthError)}
             })
             return
                 }

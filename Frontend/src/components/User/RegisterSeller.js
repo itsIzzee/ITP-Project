@@ -81,7 +81,7 @@ export default function RegisterSeller(){
                     toast(error,{
                         position : 'bottom-center',
                         type : 'error',
-                        onOpen : ()=>{ dispatch (clearSellerError)}
+                        // onOpen : ()=>{ dispatch (clearSellerError)}
                     })
                     return
                         }

@@ -163,11 +163,7 @@ exports.verify2FA = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: '2FA verification successful',
-        user: {
-            id: user._id,
-            email: user.email,
-            is2FAVerified: true
-        }
+        user
     });
 });
 //Logout User - /api/v1/logout

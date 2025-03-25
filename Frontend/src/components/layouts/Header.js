@@ -28,9 +28,12 @@ const navigate = useNavigate();
       {/* Navbar Container */}
       <div className="max-w-7xl mx-auto flex justify-between items-center px-10">
         {/* Logo */}
-        <h1 className="text-3xl font-bold text-[#F5E1C9] tracking-wide">
-          Rootsly
-        </h1>
+        <Link to="/home" className="no-underline">
+            <h1 className="text-3xl font-bold text-[#F5E1C9] tracking-wide">
+              Rootsly
+            </h1>
+          </Link>
+
 
         {/* Navigation Links */}
         <div className="flex space-x-8 text-lg font-medium">

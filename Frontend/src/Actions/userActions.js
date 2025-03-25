@@ -27,7 +27,13 @@ import { loginFail,
     deleteAccountSuccess,
     registerUserInfoFail,
     registerUserInfoSuccess,
-    registerUserInfoRequest
+    registerUserInfoRequest,
+    initiate2FAFail,
+    initiate2FARequest,
+    initiate2FASuccess,
+    verify2FAFail,
+    verify2FARequest,
+    verify2FASuccess
 } from "../Slices/authSlice"
 import axios from 'axios'
 import { logoutSellerSuccess } from "../Slices/sellerSlice"
@@ -173,7 +179,31 @@ export const updateUserInfo = (userData) => async (dispatch) => {
 } 
 
 
+// Initiate 2FA
+export const initiate2FA = () => async (dispatch) => {
+    try {
+        dispatch(initiate2FARequest());
 
+        const { data } = await axios.post("/api/v1/send2FA");
+
+        dispatch(initiate2FASuccess(data.message));
+    } catch (error) {
+        dispatch(initiate2FAFail(error.response?.data?.message || "Failed to send 2FA code"));
+    }
+};
+
+// Verify 2FA
+export const verify2FA = (code) => async (dispatch) => {
+    try {
+        dispatch(verify2FARequest());
+
+        const { data } = await axios.post("/api/v1/verfy2FA", { code });
+
+        dispatch(verify2FASuccess(data));
+    } catch (error) {
+        dispatch(verify2FAFail(error.response?.data?.message || "Invalid 2FA Code"));
+    }
+};
 
 
 export const updatePassword = (formData) => async (dispatch) => {

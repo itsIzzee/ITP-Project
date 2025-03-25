@@ -22,7 +22,7 @@ export default function LoginSeller(){
 
     useEffect(() => {
         if(isAuthenticatedSeller){
-            navigate('/home')   //navigate the buyers home page
+            navigate('/send2faSeller')   //navigate the buyers home page
         }
 
         if(error) {

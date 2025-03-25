@@ -37,6 +37,10 @@ import UpdateUserInfo from './components/User/UpdateUserInfo';
 
 import ProfileSellerInfo from './components/User/ProfileSellerInfo';
 import UpdateSellerInfo from './components/User/UpdateSellerInfo';
+import Send2FA from './components/User/Send2FA';
+import Verify2FA from './components/User/Verify2FA';
+import Send2FASeller from './components/User/Send2FASeller';
+import Verify2FASeller from './components/User/Verify2FASeller';
 
 
 
@@ -193,6 +197,15 @@ function App() {
                   </ProtectedRoute>
               }
             />
+
+
+          <Route path="/send2fa" element={<Send2FA />} />
+          <Route path="/verify2fa" element={<Verify2FA />} />
+
+          <Route path="/send2faSeller" element={<Send2FASeller />} />
+          <Route path="/verify2faSeller" element={<Verify2FASeller />} />
+
+
 
           <Route path="/add-user-info" element={<AddUserInfoComponent />} />
           <Route path="/update-user-info" element={<UpdateUserInfoComponent />} />

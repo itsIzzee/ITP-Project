@@ -4,37 +4,37 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: {
+       
             loading: false,
     isAuthenticated: false,
     user: null,
     error: null,
   },
      
-    },
+    
     reducers: {
-        loginRequest(state, action){
-            return {
-                ...state,
-                loading: true,
-            }
-        },
-        loginSuccess(state, action){
-            return {
-            
-                loading: false,
-                isAuthenticated : true,
-                user: action.payload.user
-            }
-        },
-        loginFail(state, action){
-            return {
-                ...state,
-                loading: false,
-                error:  action.payload
-            }
-        },
-        clearUserError(state, action){
+    loginRequest(state, action){
+        return {
+            ...state,
+            loading: true,
+        }
+    },
+    loginSuccess(state, action){
+        return {
+        
+            loading: false,
+            isAuthenticated : true,
+            user: action.payload.user
+        }
+    },
+    loginFail(state, action){
+        return {
+            ...state,
+            loading: false,
+            error:  action.payload
+        }
+    },
+    clearUserError(state, action){
             return {
                 ...state,
                 error:  null
@@ -63,6 +63,7 @@ const authSlice = createSlice({
             error:  action.payload
         }
     },
+
 
     registerUserInfoRequest(state, action){
         return {
@@ -110,6 +111,51 @@ const authSlice = createSlice({
             error:  action.payload
         }
     },
+    initiate2FARequest(state) {
+        return {
+            ...state,
+            loading: true
+        };
+    },
+    initiate2FASuccess(state, action) {
+        return {
+            ...state,
+            loading: false,
+            message: action.payload
+        };
+    },
+    initiate2FAFail(state, action) {
+        return {
+            ...state,
+            loading: false,
+            error: action.payload
+        };
+    },
+    verify2FARequest(state) {
+        return {
+            ...state,
+            loading: true
+        };
+    },
+    verify2FASuccess(state, action) {
+        return {
+            ...state,
+            loading: false,
+            is2FAVerified: true,
+            user: action.payload.user,
+
+             
+        };
+    },
+    verify2FAFail(state, action) {
+        return {
+            ...state,
+            loading: false,
+            error: action.payload
+        };
+    },
+    
+
     logoutSuccess(state, action){
         return {
         
@@ -250,6 +296,12 @@ const { actions, reducer } = authSlice;
 export const { loginRequest,
     loginSuccess,
     loginFail,
+    initiate2FAFail,
+    initiate2FARequest,
+    initiate2FASuccess,
+    verify2FAFail,
+    verify2FARequest,
+    verify2FASuccess,
     clearUserError,
     registerRequest,
     registerSuccess,
@@ -276,7 +328,7 @@ export const { loginRequest,
     deleteAccountSuccess,
     registerUserInfoFail,
     registerUserInfoRequest,
-    registerUserInfoSuccess
+    registerUserInfoSuccess,
 } = actions;
 
 export default reducer;

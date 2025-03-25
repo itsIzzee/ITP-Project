@@ -56,7 +56,7 @@ export default function UpdateUserInfo () {
                 type: 'success',
                 position : 'bottom-center'
             })
-            navigate('/home')
+            navigate('/userInfoProfile')
             return;
         }
 
@@ -64,7 +64,7 @@ export default function UpdateUserInfo () {
             toast(error,{
                 position : 'bottom-center',
                 type : 'error',
-                onOpen : ()=>{ dispatch (clearAuthError)}
+                // onOpen : ()=>{ dispatch (clearAuthError)}
             })
             return
                 }

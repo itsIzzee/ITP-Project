@@ -26,7 +26,13 @@ import { loginFailSeller
      resetPasswordSellerSuccess,
      deleteAccountSellerFail,
      deleteAccountSellerRequest,
-     deleteAccountSellerSuccess
+     deleteAccountSellerSuccess,
+     initiate2FAFailSeller,
+     initiate2FARequestSeller,
+     initiate2FASuccessSeller,
+     verify2FAFailSeller,
+     verify2FARequestSeller,
+     verify2FASuccessSeller
     } from "../Slices/sellerSlice"
 import axios from 'axios'
 
@@ -72,7 +78,30 @@ export const registerSeller = (sellerData) => async (dispatch) => {
 } 
 
 
+export const initiate2FASeller = () => async (dispatch) => {
+    try {
+        dispatch(initiate2FARequestSeller());
 
+        const { data } = await axios.post("/api/v1/send2FASeller");
+
+        dispatch(initiate2FASuccessSeller(data.message));
+    } catch (error) {
+        dispatch(initiate2FAFailSeller(error.response?.data?.message || "Failed to send 2FA code"));
+    }
+};
+
+// Verify 2FA
+export const verify2FASeller = (code) => async (dispatch) => {
+    try {
+        dispatch(verify2FARequestSeller());
+
+        const { data } = await axios.post("/api/v1/verfy2FASeller", { code });
+
+        dispatch(verify2FASuccessSeller(data));
+    } catch (error) {
+        dispatch(verify2FAFailSeller(error.response?.data?.message || "Invalid 2FA Code"));
+    }
+};
 
 export const loadSeller = ()=>async (dispatch) => {
 

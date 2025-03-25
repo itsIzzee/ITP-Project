@@ -36,7 +36,7 @@ export default function ResetPasswordSeller(){
             toast(error,{
                 position : 'bottom-center',
                 type : 'error',
-                onOpen : ()=>{ dispatch (clearSellerError)}
+                // onOpen : ()=>{ dispatch (clearSellerError)}
             })
             return
                 }

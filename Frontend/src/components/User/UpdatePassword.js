@@ -35,7 +35,7 @@ export default function UpdatePassword () {
                 toast(error,{
                     position : 'bottom-center',
                     type : 'error',
-                    onOpen : ()=>{ dispatch (clearAuthError)}
+                    // onOpen : ()=>{ dispatch (clearAuthError)}
                 })
                 return
                     }
