@@ -86,11 +86,90 @@ exports.loginuser = catchAsyncError(async(req,res,next) =>{
         return next(new errorHandler('Invalid email or password',401))
     }
 
-    sendToken(user, 201, res)
+        sendToken(user, 201, res)
+
+           
+
 
 })
 
+exports.initiate2FA = catchAsyncError(async (req, res, next) => {
+    // Ensure user is authenticated and available
+    if (!req.user || !req.user._id) {
+        return next(new ErrorHandler('User authentication required', 401));
+    }
 
+    // Get fresh user document to ensure all methods are available
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Generate and save 2FA code
+    const code = crypto.randomInt(100000, 999999).toString();
+    user.twoFACode = code;
+    user.twoFAExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+    user.is2FAVerified = false;
+    
+    await user.save({ validateBeforeSave: false });
+
+    // Send email
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'Your 2FA Verification Code',
+            message: `Your verification code is: ${code}`
+        });
+
+        res.status(200).json({
+            success: true,
+            message: '2FA code sent to your email'
+        });
+    } catch (error) {
+        // Clear the code if email fails
+        user.twoFACode = undefined;
+        user.twoFAExpires = undefined;
+        await user.save({ validateBeforeSave: false });
+        
+        return next(new ErrorHandler('Failed to send verification email', 500));
+    }
+});
+
+exports.verify2FA = catchAsyncError(async (req, res, next) => {
+    const { code } = req.body;
+    
+    // Validate input
+    if (!code || !/^\d{6}$/.test(code)) {
+        return next(new ErrorHandler('Please provide a valid 6-digit code', 400));
+    }
+
+    // Get fresh user document
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Verify code
+    if (!user.twoFACode || code !== user.twoFACode || Date.now() > user.twoFAExpires) {
+        return next(new ErrorHandler('Invalid or expired verification code', 400));
+    }
+
+    // Clear code and mark as verified
+    user.twoFACode = undefined;
+    user.twoFAExpires = undefined;
+    user.is2FAVerified = true;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+        message: '2FA verification successful',
+        user: {
+            id: user._id,
+            email: user.email,
+            is2FAVerified: true
+        }
+    });
+});
 //Logout User - /api/v1/logout
 exports.logoutUser = (req ,res ,next ) => {
         res.cookie('token',null, {

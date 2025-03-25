@@ -34,7 +34,83 @@ exports.registerSeller = catchAsyncError(async (req,res,next) =>{
 
 })
 
+exports.initiate2FASeller = catchAsyncError(async (req, res, next) => {
+    // Ensure user is authenticated and available
+    if (!req.seller || !req.seller._id) {
+        return next(new ErrorHandler('User authentication required', 401));
+    }
 
+    // Get fresh user document to ensure all methods are available
+    const seller = await Seller.findById(req.seller._id);
+    if (!seller) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Generate and save 2FA code
+    const code = crypto.randomInt(100000, 999999).toString();
+    seller.twoFACode = code;
+    seller.twoFAExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+    seller.is2FAVerified = false;
+    
+    await seller.save({ validateBeforeSave: false });
+
+    // Send email
+    try {
+        await sendEmail({
+            email: seller.email,
+            subject: 'Your 2FA Verification Code',
+            message: `Your verification code is: ${code}`
+        });
+
+        res.status(200).json({
+            success: true,
+            message: '2FA code sent to your email'
+        });
+    } catch (error) {
+        // Clear the code if email fails
+        seller.twoFACode = undefined;
+        seller.twoFAExpires = undefined;
+        await seller.save({ validateBeforeSave: false });
+        
+        return next(new ErrorHandler('Failed to send verification email', 500));
+    }
+});
+
+exports.verify2FASeller = catchAsyncError(async (req, res, next) => {
+    const { code } = req.body;
+    
+    // Validate input
+    if (!code || !/^\d{6}$/.test(code)) {
+        return next(new ErrorHandler('Please provide a valid 6-digit code', 400));
+    }
+
+    // Get fresh user document
+    const seller = await Seller.findById(req.seller._id);
+    if (!seller) {
+        return next(new ErrorHandler('Seller not found', 404));
+    }
+
+    // Verify code
+    if (!seller.twoFACode || code !== seller.twoFACode || Date.now() > seller.twoFAExpires) {
+        return next(new ErrorHandler('Invalid or expired verification code', 400));
+    }
+
+    // Clear code and mark as verified
+    seller.twoFACode = undefined;
+    seller.twoFAExpires = undefined;
+    seller.is2FAVerified = true;
+    await seller.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        success: true,
+        message: '2FA verification successful',
+        seller: {
+            id: seller._id,
+            email: seller.email,
+            is2FAVerified: true
+        }
+    });
+});
 
 //Login Seller - /api/v1/loginSeller
 exports.loginSeller = catchAsyncError(async(req,res,next) =>{

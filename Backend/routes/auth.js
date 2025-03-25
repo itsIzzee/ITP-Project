@@ -24,14 +24,17 @@ const { registerUser,
     updateUser,
     deleteUser,
     deleteMyAccount,
-    registerUserInfo
+    registerUserInfo,
+    verify2FA,
+    initiate2FA
 } = require('../controllers/authController');
 const router = express.Router();
-const { isAuthenticatedUser, authorizeRoles } = require('../middleware/authenticate');
+const { isAuthenticatedUser, authorizeRoles, isAuthenticatedSeller } = require('../middleware/authenticate');
+const { verify2FASeller, initiate2FASeller } = require('../controllers/sellerController');
 
 router.route('/register').post(upload.single('avatar'),registerUser);
 
-router.route('/registerUserInfo').put(isAuthenticatedUser,registerUserInfo);
+// router.route('/registerUserInfo').post(isAuthenticatedUser,registerUserInfo);
 
 
 
@@ -44,7 +47,12 @@ router.route('/password/change').put(isAuthenticatedUser,changePassword);
 router.route('/update').put(isAuthenticatedUser,upload.single('avatar'),updateProfile);
 router.route('/deleteMyAccount').delete(isAuthenticatedUser,deleteMyAccount);
 
+router.route('/verfy2FA').post(isAuthenticatedUser,verify2FA);
+router.route('/send2FA').post(isAuthenticatedUser,initiate2FA);
 
+
+router.route('/verfy2FASeller').post(isAuthenticatedSeller,verify2FASeller);
+router.route('/send2FASeller').post(isAuthenticatedSeller,initiate2FASeller);
 // admin routes
 
 router.route('/admin/users').get(isAuthenticatedUser,authorizeRoles('admin'),getAllUsers);

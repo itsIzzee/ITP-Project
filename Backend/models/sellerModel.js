@@ -26,6 +26,20 @@ const sellerSchema = new mongoose.Schema({
     avatar :{
         type : String
     },
+
+    twoFACode: {
+        type :String
+    },
+
+    twoFAExpires: {
+        type:Date
+    },
+
+    is2FAVerified: { 
+        type: Boolean, 
+        default: false
+     },
+
     role :{
         type : String,
         default : 'seller'
@@ -107,6 +121,24 @@ const sellerSchema = new mongoose.Schema({
         return token;
 
         }
+
+        sellerSchema.methods.generate2FACode = function() {
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            this.twoFACode = code;
+            this.twoFAExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+            return code;
+          };
+          
+          sellerSchema.methods.clear2FACode = function() {
+            this.twoFACode = undefined;
+            this.twoFAExpires = undefined;
+            return this.save({ validateBeforeSave: false });
+          };
+          
+          sellerSchema.methods.verify2FACode = function(code) {
+            return this.twoFACode === code && Date.now() < this.twoFAExpires;
+          };
+
 
 
 let model = mongoose.model('Seller', sellerSchema);

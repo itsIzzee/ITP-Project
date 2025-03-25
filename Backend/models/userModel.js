@@ -47,6 +47,11 @@ const userSchema = new mongoose.Schema({
         type:Date
     },
 
+    is2FAVerified: { 
+        type: Boolean, 
+        default: false
+     },
+
     createdAt :{
         type : Date,
         default: Date.now
@@ -125,7 +130,10 @@ const userSchema = new mongoose.Schema({
             this.twoFAExpires = undefined;
             return this.save({ validateBeforeSave: false });
           };
-  
+          
+          userSchema.methods.verify2FACode = function(code) {
+            return this.twoFACode === code && Date.now() < this.twoFAExpires;
+          };
 
 
 let model = mongoose.model('User', userSchema);
